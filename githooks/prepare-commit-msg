@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# source: https://medium.com/prnd/github-%EC%BB%A4%EB%B0%8B-%EB%A9%94%EC%84%B8%EC%A7%80%EC%97%90-jira-%EC%9D%B4%EC%8A%88%EB%B2%88%ED%98%B8-%EC%9E%90%EB%8F%99%EC%9C%BC%EB%A1%9C-%EB%84%A3%EC%96%B4%EC%A3%BC%EA%B8%B0-779048784037
+
+# created: 24-06-12
+# @glenn-syj
+
+# assign the branches to be skipped
+if [ -z "$BRANCHES_TO_SKIP" ]; then
+  BRANCHES_TO_SKIP=(main develop release hotfix)
+fi
+
+# parse the name of the current branch
+BRANCH_NAME=$(git symbolic-ref --short HEAD)
+# assign the name after the last '/'
+BRANCH_NAME="${BRANCH_NAME##*/}"
+# assign the part which matches the regex in the branch name as a jira id after printing
+JIRA_ID=`echo $BRANCH_NAME | egrep -o 'SRP.-[0-9]+'`
+
+# assign 1 if the current branch is in the BRANCHES_TO_SKIP
+BRANCH_EXCLUDED=$(printf "%s\n" "${BRANCHES_TO_SKIP[@]}" | grep -c "^$BRANCH_NAME$")
+# count how many the jira ticket name was used in the first file among the arguments
+BRANCH_IN_COMMIT=$(grep -c "$JIRA_ID" $1)
+
+# check whether the branch should not be exculded and the ticket name was never used in the commit message
+if [ -n $JIRA_ID ] && ! [[ $BRANCH_EXCLUDED -eq 1 ]] && ! [[ $BRANCH_IN_COMMIT -ge 1 ]]; then 
+  # add the jira id followed by a space in the first place of the commit message 
+  sed -i.bak -e "1s/^/$JIRA_ID /" $1
+fi
