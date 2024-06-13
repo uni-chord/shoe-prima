@@ -1,0 +1,24 @@
+# Node modules directory
+node_modules/
+
+# Build output directory (만약 프로젝트에서 사용 중이라면 추가)
+dist/
+
+# Public directory (정적 자원 포함)
+public/
+
+# Ignore specific configuration files
+.vscode/
+package-lock.json
+*.log
+*.md
+
+# Ignore all HTML files (필요시 추가)
+*.html
+
+# 특정 파일 제외
+vite-env.d.ts
+
+# TypeScript 설정 파일 (만약 포맷팅 필요 없으면 추가)
+tsconfig.json
+tsconfig.node.json
