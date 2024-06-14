@@ -367,6 +367,9 @@ sketch
 !.vscode/extensions.json
 !.vscode/*.code-snippets
 
+# Include specific .vscode settings in subdirectories
+!front/shoe-prima-frontend/.vscode/settings.json
+
 # Local History for Visual Studio Code
 .history/
 
