@@ -35,21 +35,20 @@ module.exports = {
     'import/namespace': 'error',
     'import/no-unresolved': 'error', // 존재하지 않는 파일 import 시 오류
 
-    'import/no-unused-modules': [
-      'warn',
-      {
-        unusedExports: true, // 사용되지 않는 모듈 경고
-        missingExports: true, // 누락된 모듈 경고
-        src: ['src/**/*.{ts,tsx}'], // 적용할 경로 설정
-      },
-    ],
-    'import/no-deprecated': 'warn', // 오래된 모듈 경고
+    'import/no-unused-modules': 'off',
+    // 'import/no-unused-modules': [
+    //   'warn',
+    //   {
+    //     unusedExports: true, // 사용되지 않는 모듈 경고
+    //     missingExports: true, // 누락된 모듈 경고
+    //     src: ['src/**/*.{ts,tsx}'], // 적용할 경로 설정
+    //   },
+    // ],
     'import/no-duplicates': 'warn', // 같은 모듈 2번 이상 import 경고
     'import/first': 'warn', // import는 최상단 경고
 
     // 2. 변수 처리
     'no-use-before-define': 'off', // 기본 ESLint 규칙 비활성화 (javascript 기반)
-    '@typescript-eslint/no-use-before-define': ['error'], // TypeScript에서 변수를 정의하기 전에 사용하면 오류
 
     'no-unused-vars': 'off', // 기본 ESLint 규칙 비활성화 (javascript 기반)
     '@typescript-eslint/no-unused-vars': [
@@ -73,6 +72,33 @@ module.exports = {
 
     camelcase: 'warn', // 네이밍 컨벤션: 변수명, 함수명
     'no-console': 'warn', // console 사용 시 경고
+
+    // 5. 타입 관련
+    // 타입 단언을 일관되게 사용하도록 강제
+    '@typescript-eslint/consistent-type-assertions': [
+      'error',
+      {
+        assertionStyle: 'as', // someValue as string 형식 사용으로 통일
+        objectLiteralTypeAssertions: 'never',
+      },
+    ],
+    // 모든 함수와 메서드에 대해 반환 타입을 명시적으로 지정하도록 강제
+    '@typescript-eslint/explicit-function-return-type': [
+      'warn',
+      {
+        allowExpressions: true, // 화살표 함수 및 간단한 함수 표현식에서 반환 타입을 생략할 수 있도록 허용 (타입 추론 활용)
+        allowTypedFunctionExpressions: true,
+      },
+    ],
+    // 함수 매개변수 및 변수에서 명시적으로 타입을 지정하도록 강제
+    '@typescript-eslint/typedef': [
+      'warn',
+      {
+        arrowParameter: false, // 화살표 함수의 매개변수에 대해 타입 지정을 강제하지 않음 (타입스크립트가 타입을 추론할 수 있음)
+        variableDeclaration: true, // 모든 변수 선언에서 명시적으로 타입을 지정하도록 강제
+        variableDeclarationIgnoreFunction: true, // 함수 내부에서 선언된 변수에 대해 타입 지정을 강제하지 않음 (타입스크립트의 타입 추론을 허용함)
+      },
+    ],
   },
   settings: {
     react: {
