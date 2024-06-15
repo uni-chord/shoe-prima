@@ -1,10 +1,13 @@
-import logo from '/src/assets/react.svg';
+import Router from './routes/Router';
+import GlobalStyle from './styles/GlobalStyles';
 
-export default function App() {
+const App: () => JSX.Element = () => {
   return (
-    <div>
-      <img src={logo} alt="Vite logo" />
-      <div>App</div>
-    </div>
+    <>
+      <GlobalStyle />
+      <Router />
+    </>
   );
-}
+};
+
+export default App;
