@@ -1,8 +1,10 @@
 import { createGlobalStyle } from 'styled-components';
+import reset from 'styled-reset';
 
 type GlobalStyleType = ReturnType<typeof createGlobalStyle>; // createGlobalStyle 함수의 반환 타입을 추론
 
 const GlobalStyle: GlobalStyleType = createGlobalStyle`
+    ${reset}
     :root {
         /* Color styles */
         --white--900: rgba(255, 255, 255, 1);

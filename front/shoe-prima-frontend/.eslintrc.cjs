@@ -95,7 +95,7 @@ module.exports = {
       'warn',
       {
         arrowParameter: false, // 화살표 함수의 매개변수에 대해 타입 지정을 강제하지 않음 (타입스크립트가 타입을 추론할 수 있음)
-        variableDeclaration: true, // 모든 변수 선언에서 명시적으로 타입을 지정하도록 강제
+        variableDeclaration: false, // (styled-components에서 타입 지정 강제하지 않도록) 변수 선언에서 타입 지정 강제하지 않도록 규칙 완화
         variableDeclarationIgnoreFunction: true, // 함수 내부에서 선언된 변수에 대해 타입 지정을 강제하지 않음 (타입스크립트의 타입 추론을 허용함)
       },
     ],
