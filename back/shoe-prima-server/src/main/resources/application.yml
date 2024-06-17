@@ -1,0 +1,46 @@
+server:
+    port: 8080
+
+spring:
+
+  profiles:
+    include:
+      - db
+      - auth
+
+  application:
+    name: shoe-prima-server
+
+  servlet:
+    multipart:
+      max-file-size: 10MB  # 업로드 가능한 개별 파일 최대 크기
+      max-request-size: 10MB  # 요청 최대 크기
+
+  jpa: # jpa 설정
+    defer-datasource-initialization: true # 데이터 소스 초기화 지연
+    hibernate:
+      dialect: org.hibernate.dialect.MySQLDialect # MySQL 이용
+      show-sql: true # sql 쿼리 콘솔에 출력
+      format-sql: true # sql 쿼리 출력 시 깔끔하게 포맷팅
+      generate-ddl: true # ddl-auto 속성 적용 여부
+      ddl-auto: create # 초기 개발 일정 후 update, 배포 시에는 validate 이용
+      use-sql-comments: true # sql 주석 이용
+    properties:
+      hibernate:
+        format_sql: true
+
+springdoc:
+  api-docs:
+    enabled: true  # API 문서 작성 활성화
+  swagger-ui:
+    enabled: true  # Swagger 활성화
+    #    tags-sorter: alpha  # 태그를 알파벳 순서로 정렬
+    #    operations-sorter: alpha  # 연산을 알파벳 순서로 정렬
+    display-request-duration: true  # 요청 지속 시간 표시
+  paths-to-exclude:
+    - /test/**  # 해당 경로 엔드포인트 API 문서에서 제외
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
