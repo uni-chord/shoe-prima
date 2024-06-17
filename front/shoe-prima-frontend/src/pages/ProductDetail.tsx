@@ -1,3 +1,4 @@
+import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import Product from '../components/product-detail/Product';
 import ProductInfo from '../components/product-detail/ProductInfo';
@@ -17,11 +18,18 @@ const ProductDetail: React.FC = () => {
 
   return (
     <>
-      <p>동적 페이지 라우팅 테스트: {productId}</p>
-      <Product productId={productId} />
-      <ProductInfo productId={productId} />
+      <ProductDetails>
+        <Product productId={productId} />
+        <ProductInfo productId={productId} />
+      </ProductDetails>
     </>
   );
 };
+
+const ProductDetails = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+`;
 
 export default ProductDetail;
