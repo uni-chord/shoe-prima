@@ -28,8 +28,10 @@ const ProductDetail: React.FC = () => {
 
 const ProductDetails = styled.div`
   display: flex;
+  justify-content: center;
   align-items: flex-start;
   gap: 40px;
+  margin: 0 auto;
 `;
 
 export default ProductDetail;

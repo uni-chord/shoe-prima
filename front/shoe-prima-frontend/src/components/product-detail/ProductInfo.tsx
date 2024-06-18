@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import {
   FavoriteBorder,
@@ -9,12 +9,101 @@ import {
   StarBorder,
 } from '@mui/icons-material';
 import Review from './Review';
+import QuantityItemComponent from './QuantityItemComponent';
+
+type SizeType = string;
+
+interface Selection {
+  size: string;
+  color: string;
+  quantity: number;
+  price: number;
+}
+
+interface ColorRadioButtonProps {
+  image: string;
+}
 
 interface ProductInfoProps {
   productId: string | undefined;
 }
 
 const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
+  const [selections, setSelections] = useState<Selection[]>([]);
+
+  const addSelection = (
+    size: string,
+    color: string,
+    quantity: number,
+    price: number,
+  ) => {
+    setSelections((prev: Selection[]) => [
+      ...prev,
+      { size, color, quantity, price },
+    ]);
+  };
+
+  const colors = [
+    { id: 'red', image: '/testImg1.png' },
+    { id: 'green', image: '/testImg1.png' },
+    { id: 'blue', image: '/testImg1.png' },
+  ];
+
+  const price: number = 100000;
+
+  const totalPrice = selections.reduce((acc, item) => {
+    return acc + item.quantity * item.price;
+  }, 0);
+
+  const [selectedColor, setSelectedColor] = useState('red');
+  const handleColorSelection = (colorId: string) => {
+    setSelectedColor(colorId);
+    setSelectedSize(''); // 선택된 사이즈를 초기화
+  };
+
+  const [selectedSize, setSelectedSize] = useState(''); // 기본 선택 사이즈 none
+  const sizes: SizeType[] = Array.from(
+    { length: (290 - 220) / 5 + 1 },
+    (_, i) => (220 + i * 5).toString(),
+  );
+  const disabledSizes = ['220', '225', '230']; // 비활성화할 사이즈 목록
+
+  const handleSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newSize = event.target.value;
+    setSelectedSize(newSize);
+    // 기본 수량을 1로 설정하고, 현재 선택된 색상과 함께 addSelection 호출
+    addSelection(newSize, selectedColor, 1, price);
+  };
+
+  const removeItem = (index: number) => {
+    setSelections((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const decrementQuantity = (index: number) => {
+    setSelections((prev) =>
+      prev.map((item, i) => {
+        if (i === index) {
+          return {
+            ...item,
+            quantity: item.quantity > 1 ? item.quantity - 1 : 1,
+          };
+        }
+        return item;
+      }),
+    );
+  };
+
+  const incrementQuantity = (index: number) => {
+    setSelections((prev) =>
+      prev.map((item, i) => {
+        if (i === index) {
+          return { ...item, quantity: item.quantity + 1 };
+        }
+        return item;
+      }),
+    );
+  };
+
   const [isInfoOpen, setIsInfoOpen] = useState(true);
 
   const toggleInfoDetails = () => {
@@ -43,7 +132,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
           </ProductNameArea>
 
           <ProductDetailsArea>
-            <ProductPrice>999,999원</ProductPrice>
+            <ProductPrice>{price.toLocaleString()}원</ProductPrice>
             <LikeButton>
               <FavoriteBorder />
             </LikeButton>
@@ -53,7 +142,25 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
         <OptionArea>
           <ColorSelectorContainer>
             <Title>색상</Title>
-            <Colors></Colors>
+            <Colors>
+              {colors.map((color) => (
+                <React.Fragment key={color.id}>
+                  <input
+                    type="radio"
+                    id={`color-${color.id}`}
+                    name="color"
+                    value={color.id}
+                    style={{ display: 'none' }}
+                    checked={selectedColor === color.id}
+                    onChange={() => handleColorSelection(color.id)}
+                  />
+                  <ColorRadioButton
+                    htmlFor={`color-${color.id}`}
+                    image={color.image}
+                  ></ColorRadioButton>
+                </React.Fragment>
+              ))}
+            </Colors>
           </ColorSelectorContainer>
         </OptionArea>
 
@@ -62,16 +169,47 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
             <Title>사이즈 선택</Title>
             <SizeButton>사이즈 정보</SizeButton>
           </SizeHeadlineContainer>
+          <Label htmlFor="shoeSize"></Label>
+          <FormToggle>
+            {sizes.map((size, index) => (
+              <RadioBtn
+                key={index}
+                checked={selectedSize === size}
+                disabled={disabledSizes.includes(size)}
+              >
+                <Input
+                  id={`size-${size}`}
+                  type="radio"
+                  name="shoeSize"
+                  value={size}
+                  checked={selectedSize === size}
+                  onChange={handleSizeChange}
+                  disabled={disabledSizes.includes(size)}
+                />
+                {size}
+              </RadioBtn>
+            ))}
+          </FormToggle>
         </OptionArea>
         <OptionArea>
           <QuantityArea>
             <Title>수량</Title>
+            {selections.map((item, index) => (
+              <QuantityItemComponent
+                key={index}
+                item={item}
+                index={index}
+                removeItem={removeItem}
+                decrementQuantity={decrementQuantity}
+                incrementQuantity={incrementQuantity}
+              />
+            ))}
           </QuantityArea>
         </OptionArea>
 
         <TotalPriceArea>
           <Total>합계</Total>
-          <TotalPrice>999,999,999원</TotalPrice>
+          <TotalPrice>{`${totalPrice.toLocaleString()}원`}</TotalPrice>
         </TotalPriceArea>
         <ButtonArea>
           <Button1>장바구니</Button1>
@@ -132,7 +270,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
 
 const ProductInfoArea = styled.div`
   display: flex;
-  width: 600px;
+  width: 35rem;
   padding-left: 2.5rem;
   flex-direction: column;
 
@@ -193,12 +331,12 @@ const OptionArea = styled.div`
   display: flex;
   padding: 1.5rem 0px;
   flex-direction: column;
-  gap: 1.125rem;
 `;
 
 const ColorSelectorContainer = styled.div``;
 
 const Title = styled.div`
+  margin-bottom: 1.125rem;
   color: var(--black-900, var(--color---black900, #222));
   font-feature-settings: 'calt' off;
 
@@ -213,7 +351,34 @@ const Title = styled.div`
 
 const Colors = styled.div`
   display: flex;
-  gap: 10px;
+  align-items: flex-start;
+  gap: 0.5rem;
+  align-self: stretch;
+`;
+
+const ColorRadioButton = styled.label<ColorRadioButtonProps>`
+  display: flex;
+  width: 3.5rem;
+  height: 3.5rem;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--color---lightgray300, #e5e5e5);
+  cursor: pointer;
+  background-image: url(${(props) => props.image});
+  background-size: cover; // 이미지가 버튼 크기에 맞게 조절
+  box-sizing: border-box;
+
+  &:hover {
+    border-color: #ccc; // 호버 시 보더 색상 변경
+  }
+
+  input[type='radio'] {
+    display: none; // 라디오 버튼 숨기기
+  }
+
+  input[type='radio']:checked + & {
+    border: 1px solid var(--color---black900, #222);
+  }
 `;
 
 const SizeHeadlineContainer = styled.div`
@@ -238,9 +403,47 @@ const SizeButton = styled.div`
   text-decoration-line: underline;
 `;
 
-const QuantityArea = styled.div`
-  padding: 1.5rem 0rem;
+const Label = styled.label``;
 
+const RadioBtn = styled.label<{ checked: boolean; disabled: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  height: 3rem;
+  padding: 0.8125rem 0.625rem;
+  border-radius: var(--border-radius---border-radius-xs, 4px);
+  border: 1px solid
+    ${(props) =>
+      props.disabled
+        ? 'var(--color---lightgray300, #E5E5E5)'
+        : props.checked
+          ? 'var(--color---black900, #222)'
+          : 'var(--color---lightgray300, #e5e5e5)'};
+  background: ${(props) =>
+    props.disabled
+      ? 'var(--color---lightgray200, #F4F4F4)'
+      : props.checked
+        ? 'var(--color---white900, #FFF)'
+        : 'transparent'};
+  color: ${(props) => (props.disabled ? '#ccc' : 'inherit')};
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  box-sizing: border-box;
+  flex: 1 1 auto;
+`;
+
+const Input = styled.input`
+  display: none;
+`;
+
+const FormToggle = styled.div`
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); // 한 줄에 5개의 아이템
+  gap: 0.5rem;
+`;
+
+const QuantityArea = styled.div`
+  padding: 1rem;
   border-top: 1px solid var(--color---lightgray300, #e5e5e5);
 `;
 
@@ -341,23 +544,24 @@ const Button2 = styled.button`
 
 const DetailsContainer = styled.div`
   display: grid;
+  padding: 0.5rem;
   grid-template-columns: 1fr 4fr;
   gap: 1.25rem;
   margin-bottom: 1.25rem;
 `;
 
 const ToggleButton = styled.button`
-  padding: 0.5rem 1rem;
-  font-size: 16rem;
+  display: flex; // Flex 컨테이너로 설정
+  justify-content: space-between; // 내부 요소를 양 끝으로 정렬
+  align-items: center; // 세로 중앙 정렬
+  width: 100%; // 버튼의 너비를 조정하려면 추가
+
   border: none;
-  border-radius: 5px;
   background-color: var(--white-900);
   cursor: pointer;
 
   color: var(--black-900, var(--color---black900, #222));
   font-feature-settings: 'calt' off;
-
-  /* heading/heading2/bold */
   font-family: Pretendard;
   font-size: var(--font-size---heading2-font-size, 20px);
   font-style: normal;
@@ -394,7 +598,7 @@ const ReviewArea = styled.div`
   display: flex;
   padding: 1.75rem 0rem;
   flex-direction: column;
-  gap: 28px;
+  gap: 1/75rem;
   align-self: stretch;
 `;
 
@@ -403,6 +607,7 @@ const ReviewContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
+  padding: 0.5rem;
 `;
 
 const Rating = styled.div`
