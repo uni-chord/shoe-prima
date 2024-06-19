@@ -45,7 +45,8 @@ const StyledButton = styled.button<{
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 21.375rem;
+  // width: 21.375rem;
+  width: 100%;
   color: white;
   padding: 0.9375rem 1.5rem;
   border: none;
