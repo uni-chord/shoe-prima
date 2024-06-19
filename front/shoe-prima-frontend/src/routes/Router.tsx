@@ -3,6 +3,7 @@ import Layout from '../components/common/Layout';
 import Home from '../pages/Home';
 import ProductDetail from '../pages/ProductDetail';
 import Products from '../pages/Products';
+import Confirmed from '../pages/Confirmed';
 
 const Router: () => JSX.Element = () => {
   return (
@@ -13,6 +14,7 @@ const Router: () => JSX.Element = () => {
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<Products />} />
             <Route path="/products/:productId" element={<ProductDetail />} />
+            <Route path="/confirmed/:orderId" element={<Confirmed />} />
           </Route>
         </Routes>
       </BrowserRouter>
