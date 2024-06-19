@@ -40,7 +40,7 @@ const Review: React.FC<ReviewProps> = ({ reviewId }) => {
             ))}
         </ReviewRating>
         <ReviewWriter>리뷰 작성자 · YYYY년 MM월 DD일</ReviewWriter>
-        <ReviewContent expanded={isExpanded}>
+        <ReviewContent expanded={isExpanded.toString()}>
           Lorem ipsum dolor sit amet consectetur. Suspendisse quisque in a odio
           morbi. Amet interdum eros vulputate eget. Vulputate diam nisl tellus
           purus. Fermentum nisi nunc ultrices natoque. Lorem ipsum dolor sit
@@ -98,22 +98,21 @@ const ReviewRating = styled.div`
   justify-content: flex-start;
 `;
 
-const ReviewContent = styled.div<ReviewContentProps>`
+const ReviewContent = styled.div<{ expanded: string }>`
   overflow: hidden;
-  color: var(--black-900, var(--color---black900, #222));
-  font-feature-settings: 'calt' off;
+  color: var(--black-900);
   text-overflow: ellipsis;
   width: 100%;
 
-  display: ${({ expanded }) => (expanded ? 'block' : '-webkit-box')};
-  -webkit-box-orient: ${({ expanded }) => (expanded ? 'unset' : 'vertical')};
-  -webkit-line-clamp: ${({ expanded }) => (expanded ? 'unset' : 3)};
+  display: ${({ expanded }) => (expanded === 'true' ? 'block' : '-webkit-box')};
+  -webkit-box-orient: ${({ expanded }) =>
+    expanded === 'true' ? 'unset' : 'vertical'};
+  -webkit-line-clamp: ${({ expanded }) => (expanded === 'true' ? 'unset' : 3)};
   line-height: 1.625rem;
-  max-height: ${({ expanded }) => (expanded ? 'none' : '4.875rem')};
+  max-height: ${({ expanded }) => (expanded === 'true' ? 'none' : '4.875rem')};
 
-  /* body/body1/reading */
   font-family: Pretendard;
-  font-size: var(--font-size---body1-font-size, 16px);
+  font-size: var(--font-size---body1-font-size);
   font-style: normal;
   font-weight: 400;
   letter-spacing: -0.16px;
