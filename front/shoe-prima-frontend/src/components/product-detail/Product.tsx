@@ -7,7 +7,11 @@ interface ProductProps {
 }
 
 const Product: React.FC<ProductProps> = ({ productId }) => {
-  const images = ['/testImg1.png', '/testImg1.png', '/testImg1.png'];
+  const images = [
+    '/src/assets/testImg1.png',
+    '/src/assets/testImg1.png',
+    '/src/assets/testImg1.png',
+  ];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const nextSlide = () => {

@@ -44,9 +44,9 @@ const ProductInfo: React.FC<ProductInfoProps> = ({ productId }) => {
   };
 
   const colors = [
-    { id: 'red', image: '/testImg1.png' },
-    { id: 'green', image: '/testImg1.png' },
-    { id: 'blue', image: '/testImg1.png' },
+    { id: 'red', image: '/src/assets/testImg1.png' },
+    { id: 'green', image: '/src/assets/testImg1.png' },
+    { id: 'blue', image: '/src/assets/testImg1.png' },
   ];
 
   const price: number = 100000;
