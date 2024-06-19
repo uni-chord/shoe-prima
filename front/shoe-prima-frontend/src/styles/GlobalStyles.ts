@@ -1,3 +1,4 @@
+import 'pretendard/dist/web/static/pretendard.css';
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 
@@ -64,6 +65,12 @@ const GlobalStyle: GlobalStyleType = createGlobalStyle`
         --caption--caption1--regular: 0.81rem;
         --caption--caption2--regular: 0.75rem;
 
+        /* Font family */
+        --font-family-sans-serif: 'Pretendard', sans-serif;
+    }
+
+    body {
+        font-family: var(--font-family-sans-serif);
     }
 `;
 
