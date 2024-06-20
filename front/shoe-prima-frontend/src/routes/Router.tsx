@@ -5,6 +5,7 @@ import Confirmed from '../pages/Confirmed';
 import Home from '../pages/Home';
 import ProductDetail from '../pages/ProductDetail';
 import Products from '../pages/Products';
+import Failed from '../pages/Failed';
 
 const Router: () => JSX.Element = () => {
   return (
@@ -16,6 +17,7 @@ const Router: () => JSX.Element = () => {
             <Route path="/products" element={<Products />} />
             <Route path="/products/:productId" element={<ProductDetail />} />
             <Route path="/confirmed/:orderId" element={<Confirmed />} />
+            <Route path="/failed/:orderId" element={<Failed />} />
             <Route path="/checkout" element={<Checkout />} />
           </Route>
         </Routes>
