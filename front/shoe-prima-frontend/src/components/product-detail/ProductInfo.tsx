@@ -275,6 +275,10 @@ const ProductInfoArea = styled.div`
   flex-direction: column;
 
   border-left: 1px solid var(--color---lightgray300, #e5e5e5);
+
+  @media (max-width: 768px) {
+    border-left: none;
+  }
 `;
 
 const ProductInfoMain = styled.div`

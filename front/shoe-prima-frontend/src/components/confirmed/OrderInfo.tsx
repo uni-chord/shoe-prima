@@ -29,44 +29,36 @@ const OrderInfo: () => JSX.Element = () => {
           <Heading>주문 정보</Heading>
           <Info>
             <InfoTitle>
-              <Title>상품 금액</Title>
-              <Title>999,999원</Title>
+              <Title>주문 금액</Title>
+              <Title>102,000원</Title>
             </InfoTitle>
             <InfoSubTitle>
               <SubTitle>상품 금액</SubTitle>
-              <SubTitle>999,999원</SubTitle>
+              <SubTitle>99,000원</SubTitle>
             </InfoSubTitle>
             <InfoSubTitle>
-              <SubTitle>상품 금액</SubTitle>
-              <SubTitle>999,999원</SubTitle>
+              <SubTitle>배송비</SubTitle>
+              <SubTitle>3,000원</SubTitle>
             </InfoSubTitle>
           </Info>
           <Info>
             <InfoTitle>
-              <Title>상품 금액</Title>
-              <Title>999,999원</Title>
+              <Title>할인 금액</Title>
+              <Title>-10,200원</Title>
             </InfoTitle>
-            <InfoSubTitle>
-              <SubTitle>상품 금액</SubTitle>
-              <SubTitle>999,999원</SubTitle>
-            </InfoSubTitle>
-            <InfoSubTitle>
-              <SubTitle>상품 금액</SubTitle>
-              <SubTitle>999,999원</SubTitle>
-            </InfoSubTitle>
           </Info>
           <SumArea>
             <InfoTitle>
-              <SumTitle>상품 금액</SumTitle>
-              <Sum>999,999원</Sum>
+              <SumTitle>총 결제 금액</SumTitle>
+              <Sum>91,800원</Sum>
             </InfoTitle>
             <InfoSubTitle>
-              <SubTitle>상품 금액</SubTitle>
-              <SubTitle>999,999원</SubTitle>
+              <SubTitle>결제 일시</SubTitle>
+              <SubTitle>2024/00/00 22:00</SubTitle>
             </InfoSubTitle>
             <InfoSubTitle>
-              <SubTitle>상품 금액</SubTitle>
-              <SubTitle>999,999원</SubTitle>
+              <SubTitle>결제 방법</SubTitle>
+              <SubTitle>현대카드</SubTitle>
             </InfoSubTitle>
           </SumArea>
         </OrderInfoArea>
@@ -81,10 +73,21 @@ const OrderInfos = styled.div`
   align-items: flex-start;
   gap: 2.5rem;
   margin: 1.75rem auto;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
 `;
 
 const OrdersArea = styled.div`
   width: 560px;
+
+  @media (max-width: 768px) {
+    padding: 2.5rem 0;
+    border-top: 1px solid var(--color---lightgray300, #e5e5e5);
+  }
 `;
 
 const ToggleButton = styled.button`
@@ -124,6 +127,13 @@ const OrderInfoArea = styled.div`
   align-items: flex-start;
   flex-shrink: 0;
   border-left: 1px solid var(--color---lightgray300, #e5e5e5);
+
+  @media (max-width: 768px) {
+    padding-left: 0rem;
+    border-left: none;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--color---lightgray300, #e5e5e5);
+  }
 `;
 
 const Heading = styled.div`
