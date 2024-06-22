@@ -1,6 +1,7 @@
 package com.unichord.shoeprima.shoeprimaserver.order.model;
 
 import com.unichord.shoeprima.shoeprimaserver.common.interfaces.OnCreateEntity;
+import com.unichord.shoeprima.shoeprimaserver.common.vo.FootSize;
 import com.unichord.shoeprima.shoeprimaserver.order.converter.OrderStatusConverter;
 import com.unichord.shoeprima.shoeprimaserver.product.model.Product;
 import io.hypersistence.utils.hibernate.id.Tsid;
@@ -34,8 +35,9 @@ public class OrderDetail implements OnCreateEntity {
     @Column(name = "product_qnt", nullable = false)
     private Integer productQnt;
 
-    @Column(name = "product_size]", nullable = false)
-    private Size productSize;
+    @Embedded
+    @Column(name = "product_size", nullable = false)
+    private FootSize productSize;
 
     @Column(name = "price_sum", nullable = false)
     private Integer priceSum;
@@ -51,7 +53,7 @@ public class OrderDetail implements OnCreateEntity {
     private LocalDateTime updatedAt;
 
     @Builder
-    public OrderDetail(Order order, Product product, Integer productQnt, Size productSize, Integer priceSum, OrderStatus orderStatus) {
+    public OrderDetail(Order order, Product product, Integer productQnt, FootSize productSize, Integer priceSum, OrderStatus orderStatus) {
         this.order = order;
         this.product = product;
         this.productQnt = productQnt;
