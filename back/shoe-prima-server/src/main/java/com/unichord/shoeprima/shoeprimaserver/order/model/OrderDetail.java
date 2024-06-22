@@ -2,6 +2,7 @@ package com.unichord.shoeprima.shoeprimaserver.order.model;
 
 import com.unichord.shoeprima.shoeprimaserver.common.interfaces.OnCreateEntity;
 import com.unichord.shoeprima.shoeprimaserver.order.converter.OrderStatusConverter;
+import com.unichord.shoeprima.shoeprimaserver.product.model.Product;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -26,11 +27,15 @@ public class OrderDetail implements OnCreateEntity {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @Column(name = "product_id", nullable = false)
-    private Long productId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
     @Column(name = "product_qnt", nullable = false)
     private Integer productQnt;
+
+    @Column(name = "product_size]", nullable = false)
+    private Size productSize;
 
     @Column(name = "price_sum", nullable = false)
     private Integer priceSum;
@@ -46,10 +51,11 @@ public class OrderDetail implements OnCreateEntity {
     private LocalDateTime updatedAt;
 
     @Builder
-    public OrderDetail(Order order, Long productId, Integer productQnt, Integer priceSum, OrderStatus orderStatus) {
+    public OrderDetail(Order order, Product product, Integer productQnt, Size productSize, Integer priceSum, OrderStatus orderStatus) {
         this.order = order;
-        this.productId = productId;
+        this.product = product;
         this.productQnt = productQnt;
+        this.productSize = productSize;
         this.priceSum = priceSum;
         this.orderStatus = orderStatus;
     }
@@ -58,8 +64,8 @@ public class OrderDetail implements OnCreateEntity {
         this.order = order;
     }
 
-    public void changeProductId(Long productId) {
-        this.productId = productId;
+    public void changeProductId(Product product) {
+        this.product = product;
     }
 
     public void changeProductQnt(Integer productQnt) {
@@ -80,4 +86,3 @@ public class OrderDetail implements OnCreateEntity {
         this.createdAt = LocalDateTime.now();
     }
 }
-
