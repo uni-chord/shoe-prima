@@ -1,6 +1,7 @@
 package com.unichord.shoeprima.shoeprimaserver.inventory.model;
 
 import com.unichord.shoeprima.shoeprimaserver.common.interfaces.OnCreateEntity;
+import com.unichord.shoeprima.shoeprimaserver.common.vo.FootSize;
 import com.unichord.shoeprima.shoeprimaserver.product.model.Product;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
@@ -26,9 +27,9 @@ public class Inventory implements OnCreateEntity {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @ManyToOne
-    @JoinColumn(name = "size_id", nullable = false)
-    private Size size;
+    @Embedded
+    @Column(name = "product_size", nullable = false)
+    private FootSize size;
 
     @Column(name = "product_qnt", nullable = false)
     private Integer productQnt;
@@ -37,7 +38,7 @@ public class Inventory implements OnCreateEntity {
     private LocalDateTime createdAt;
 
     @Builder
-    public Inventory(Product product, Size size, Integer productQnt) {
+    public Inventory(Product product, FootSize size, Integer productQnt) {
         this.product = product;
         this.size = size;
         this.productQnt = productQnt;
@@ -47,7 +48,7 @@ public class Inventory implements OnCreateEntity {
         this.product = product;
     }
 
-    public void changeSize(Size size) {
+    public void changeSize(FootSize size) {
         this.size = size;
     }
 
