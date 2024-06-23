@@ -32,6 +32,10 @@ const ProductDetails = styled.div`
   align-items: flex-start;
   gap: 40px;
   margin: 0 auto;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 export default ProductDetail;

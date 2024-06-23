@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor(staticName = "of")
-public class Address {
+public class FootSize {
 
-    private final String zipCode;
-    private final String mainAddress;
-    private final String subAddress;
-
+    private final int size;
 }
