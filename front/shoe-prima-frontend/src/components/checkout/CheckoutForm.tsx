@@ -1,15 +1,20 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import AddShippingAddress from './AddShippingAddress';
 import PaymentOptions from './PaymentOptions';
 import ShippingAddress from './ShippingAddress';
 
 const CheckoutForm: () => JSX.Element = () => {
+  // 배송지 주소 등록 여부
+  const [registeredAddress, setRegisteredAddress] = useState(false);
+
   return (
     <CheckoutFormBox>
       <Title>
         <h1>주문결제</h1>
         <p>총 3개의 상품</p>
       </Title>
-      <ShippingAddress />
+      {registeredAddress ? <ShippingAddress /> : <AddShippingAddress />}
       <PaymentOptions />
     </CheckoutFormBox>
   );
@@ -26,8 +31,6 @@ const CheckoutFormBox = styled.div`
   @media (max-width: 768px) {
     width: 100%;
   }
-
-  /* background-color: pink; */
 `;
 
 const Title = styled.section`

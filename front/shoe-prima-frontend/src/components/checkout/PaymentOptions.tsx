@@ -37,7 +37,7 @@ const PaymentOptions: () => JSX.Element = () => {
 
 export default PaymentOptions;
 
-const PaymentOptionsBox = styled.div`
+const PaymentOptionsBox = styled.section`
   display: flex;
   flex-direction: column;
   align-self: stretch;
@@ -52,13 +52,13 @@ const Title = styled.h2`
   color: var(--black--900);
   font-feature-settings: 'calt' off;
 
-  /* heading/heading2/bold */
+  /* headline/headline2/bold */
   font-family: Pretendard;
-  font-size: var(--heading--heading2--bold);
+  font-size: var(--headline--headline2--regular);
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  letter-spacing: -0.0125rem;
+  letter-spacing: -0.0106rem;
 `;
 
 const RadioButtonList = styled.ul`
