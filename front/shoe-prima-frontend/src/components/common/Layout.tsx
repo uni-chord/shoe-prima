@@ -29,4 +29,7 @@ const Pages = styled.div`
   width: 100%;
 
   padding: 2.5rem;
+  // @media (max-width: 768px) {
+  //   padding: 0rem;
+  // }
 `;

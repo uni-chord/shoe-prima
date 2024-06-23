@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 // content: 필수사항, 나머지: 선택사항
