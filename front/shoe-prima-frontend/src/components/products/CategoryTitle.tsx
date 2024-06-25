@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import FilterModal from './FilterModal';
 
 const CategoryTitle: React.FC = () => {
   const [isSortOpen, setIsSortOpen] = useState(false);
   const [sortOption, setSortOption] = useState('추천순');
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const toggleSortDetails = () => {
     setIsSortOpen(!isSortOpen);
@@ -11,17 +13,24 @@ const CategoryTitle: React.FC = () => {
 
   const handleSortChange = (option: string) => {
     setSortOption(option);
-    setIsSortOpen(false); // 선택 후 드롭다운을 닫음
+    setIsSortOpen(false);
+  };
+
+  const toggleFilterModal = () => {
+    setIsFilterOpen(!isFilterOpen); // 모달 토글
+  };
+
+  const closeFilterModal = () => {
+    setIsFilterOpen(false); // 모달 닫는 함수
   };
 
   return (
     <>
       <TitleContainer>
         <TitleText>Women (100)</TitleText>
-        <FilterButton>
+        <FilterButton onClick={toggleFilterModal}>
           필터<span className="material-icons">filter_list</span>
         </FilterButton>
-
         <ToggleButton onClick={toggleSortDetails}>
           {sortOption}
           {isSortOpen ? (
@@ -46,6 +55,7 @@ const CategoryTitle: React.FC = () => {
             </SortOption>
           </SortContainer>
         )}
+        {/* {isFilterOpen && <FilterModal onClose={closeFilterModal} />} */}
       </TitleContainer>
     </>
   );

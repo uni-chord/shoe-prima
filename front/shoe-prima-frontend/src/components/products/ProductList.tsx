@@ -33,6 +33,7 @@ const Row = styled.div`
   align-items: flex-start;
   gap: 20px;
   align-self: stretch;
+  
 
   @media (max-width: 768px) {
     & > * {

@@ -31,6 +31,11 @@ const Product = styled.div`
   flex-direction: column;
   align-items: flex-start;
   flex: 1 0 0;
+  margin-bottom: 40px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 28px;
+  }
 `;
 
 const ImgContainer = styled.div`
