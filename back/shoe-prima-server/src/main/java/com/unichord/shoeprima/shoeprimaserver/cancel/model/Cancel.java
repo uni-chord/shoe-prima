@@ -1,4 +1,4 @@
-package com.unichord.shoeprima.shoeprimaserver.order.model;
+package com.unichord.shoeprima.shoeprimaserver.cancel.model;
 
 import com.unichord.shoeprima.shoeprimaserver.common.interfaces.OnCreateEntity;
 import jakarta.persistence.*;
@@ -17,12 +17,11 @@ public class Cancel implements OnCreateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cancel_id", nullable = false)
-    private Long cancelId;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-    @ManyToOne
     @JoinColumn(name = "order_detail_id", nullable = false)
-    private OrderDetail orderDetail;
+    private Long orderDetailId;
 
     @Column(name = "cancel_cause", nullable = false)
     private String cancelCause;
@@ -31,13 +30,9 @@ public class Cancel implements OnCreateEntity {
     private LocalDateTime createdAt;
 
     @Builder
-    public Cancel(OrderDetail orderDetail, String cancelCause) {
-        this.orderDetail = orderDetail;
+    public Cancel(Long orderDetailId, String cancelCause) {
+        this.orderDetailId = orderDetailId;
         this.cancelCause = cancelCause;
-    }
-
-    public void changeOrderDetail(OrderDetail orderDetail) {
-        this.orderDetail = orderDetail;
     }
 
     public void changeCancelCause(String cancelCause) {

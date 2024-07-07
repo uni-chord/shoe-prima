@@ -7,8 +7,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -18,11 +21,14 @@ public class User implements OnCreateEntity {
 
     @Id
     @Tsid
-    @Column(name = "user_id", nullable = false, updatable = false)
-    private Long userId;
+    @Column(name = "id", nullable = false, updatable = false)
+    private Long id;
 
     @Column(name = "email", nullable = false)
     private String email;
+
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Column(name = "email_reception", nullable = false, columnDefinition = "TINYINT(1)")
     private Boolean emailReception;
@@ -54,17 +60,20 @@ public class User implements OnCreateEntity {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Wish> wishes = new ArrayList<>();
+
     @Builder
-    public User(String email, Boolean emailReception, String phoneNumber, Boolean smsReception, String password, Byte provider, Byte gender, String birthDay, Integer birthYear, Byte isActive) {
+    public User(String email, String name, Boolean emailReception, String phoneNumber, Boolean smsReception, String password, Byte provider, Byte gender, String birthDay, Integer birthYear, Byte isActive) {
 
 //        Assert 문을 어디까지 이용해야 하는가?
-//        Assert.hasText(email, "email must not be empty");
-//        Assert.notNull(emailReception, "emailReception must not be null");
-//        Assert.hasText(phoneNumber, "phoneNumber must not be empty" );
-//        Assert.notNull(smsReception, "smsReception must not be null");
-
+        Assert.hasText(email, "email must not be empty");
+        Assert.notNull(emailReception, "emailReception must not be null");
+        Assert.hasText(phoneNumber, "phoneNumber must not be empty" );
+        Assert.notNull(smsReception, "smsReception must not be null");
 
         this.email = email;
+        this.name = name;
         this.emailReception = emailReception;
         this.phoneNumber = phoneNumber;
         this.smsReception = smsReception;
@@ -84,6 +93,11 @@ public class User implements OnCreateEntity {
     public void changeEmail(String email) {
 //        Assert.hasText(email, "email must not be empty");
         this.email = email;
+    }
+
+    public void changeName(String name) {
+//        Assert.hasText(email, "email must not be empty");
+        this.name = name;
     }
 
     public void changeEmailReception(Boolean emailReception) {
@@ -129,6 +143,14 @@ public class User implements OnCreateEntity {
     public void changeActiveStatus(Byte isActive) {
 //        Assert.notNull(isActive, "isActive must not be null");
         this.isActive = isActive;
+    }
+
+    public void addWish(Wish wish) {
+        wishes.add(wish);
+    }
+
+    public void removeWish(Wish wish) {
+        wishes.remove(wish);
     }
 
     @PrePersist

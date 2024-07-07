@@ -1,8 +1,6 @@
 package com.unichord.shoeprima.shoeprimaserver.inventory.model;
 
 import com.unichord.shoeprima.shoeprimaserver.common.interfaces.OnCreateEntity;
-import com.unichord.shoeprima.shoeprimaserver.common.vo.FootSize;
-import com.unichord.shoeprima.shoeprimaserver.product.model.Product;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -20,16 +18,14 @@ public class Inventory implements OnCreateEntity {
 
     @Id
     @Tsid
-    @Column(name = "inventory_id", nullable = false)
-    private Long inventoryId;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-    @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    private Long productId;
 
-    @Embedded
     @Column(name = "product_size", nullable = false)
-    private FootSize size;
+    private Integer size;
 
     @Column(name = "product_qnt", nullable = false)
     private Integer productQnt;
@@ -38,17 +34,17 @@ public class Inventory implements OnCreateEntity {
     private LocalDateTime createdAt;
 
     @Builder
-    public Inventory(Product product, FootSize size, Integer productQnt) {
-        this.product = product;
+    public Inventory(Long productId, Integer size, Integer productQnt) {
+        this.productId = productId;
         this.size = size;
         this.productQnt = productQnt;
     }
 
-    public void changeProduct(Product product) {
-        this.product = product;
+    public void changeProduct(Long productId) {
+        this.productId = productId;
     }
 
-    public void changeSize(FootSize size) {
+    public void changeSize(Integer size) {
         this.size = size;
     }
 

@@ -17,8 +17,8 @@ public class Admin implements OnCreateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "admin_id", nullable = false)
-    private Long adminId;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;

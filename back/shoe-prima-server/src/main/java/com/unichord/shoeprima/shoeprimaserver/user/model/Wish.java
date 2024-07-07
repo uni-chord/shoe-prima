@@ -1,7 +1,6 @@
 package com.unichord.shoeprima.shoeprimaserver.user.model;
 
 import com.unichord.shoeprima.shoeprimaserver.common.interfaces.OnCreateEntity;
-import com.unichord.shoeprima.shoeprimaserver.product.model.Product;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -19,24 +18,22 @@ public class Wish implements OnCreateEntity {
 
     @Id
     @Tsid
-    @Column(name = "wish_id", nullable = false)
-    private Long wishId;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Long userId;
 
-    @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    private Long productId;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @Builder
-    public Wish(User user, Product product) {
-        this.user = user;
-        this.product = product;
+    public Wish(Long userId, Long productId) {
+        this.userId = userId;
+        this.productId = productId;
     }
 
     @PrePersist

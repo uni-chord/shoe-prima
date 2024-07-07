@@ -1,11 +1,13 @@
-package com.unichord.shoeprima.shoeprimaserver.order.model;
+package com.unichord.shoeprima.shoeprimaserver.cancel.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 
-public class ReturnDto {
+import java.time.LocalDateTime;
+
+public class CancelDto {
 
     @Data
     @Getter
@@ -13,10 +15,10 @@ public class ReturnDto {
     @AllArgsConstructor
     public static class Summary {
 
-        private Long returnId;
+        private Long id;
         private Long orderDetailId;
-        private String returnCause;
-        private String returnNumber;
+        private String cancelCause;
+        private LocalDateTime createdAt;
 
     }
 

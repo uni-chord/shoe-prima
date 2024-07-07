@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -19,11 +21,20 @@ public class Product implements OnCreateEntity {
 
     @Id
     @Tsid
-    @Column(name = "product_id", nullable = false)
-    private Long productId;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-    @Embedded
-    private ProductDesc productDesc;
+    @Column(name = "model_code", nullable = false)
+    private String modelCode;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "price", nullable = false)
+    private Integer price;
+
+    @Column(name = "color", nullable = false)
+    private String color;
 
     @Convert(converter = ProductStatusConverter.class)
     @Column(name = "status", nullable = false)
@@ -35,22 +46,41 @@ public class Product implements OnCreateEntity {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductImage> images = new ArrayList<>();
+
     @Builder
-    public Product(ProductDesc productDesc, ProductStatus productStatus, Byte discountPer) {
-        this.productDesc = productDesc;
+    public Product(String modelCode, String name, Integer price, String color, ProductStatus productStatus, Byte discountPer) {
+        this.modelCode = modelCode;
+        this.name = name;
+        this.price = price;
+        this.color = color;
         this.productStatus = productStatus;
         this.discountPer = discountPer;
     }
 
-    public void changeProductDesc (ProductDesc productDesc) {
-        this.productDesc = productDesc;
+    public void changeProductDesc(String modelCode, String name, Integer price, String color) {
+        this.modelCode = modelCode;
+        this.name = name;
+        this.price = price;
+        this.color = color;
     }
 
     public void changeProductStatus(ProductStatus productStatus) {
         this.productStatus = productStatus;
     }
 
-    public void changeDiscountPer(Byte discountPer) { this.discountPer = discountPer; }
+    public void changeDiscountPer(Byte discountPer) {
+        this.discountPer = discountPer;
+    }
+
+    public void addImage(ProductImage image) {
+        this.images.add(image);
+    }
+
+    public void removeImage(ProductImage image) {
+        this.images.remove(image);
+    }
 
     @PrePersist
     @Override

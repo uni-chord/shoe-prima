@@ -1,4 +1,4 @@
-package com.unichord.shoeprima.shoeprimaserver.order.model;
+package com.unichord.shoeprima.shoeprimaserver.returns.model;
 
 import com.unichord.shoeprima.shoeprimaserver.common.interfaces.OnCreateEntity;
 import jakarta.persistence.*;
@@ -18,11 +18,10 @@ public class Return implements OnCreateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "return_id", nullable = false)
-    private Long returnId;
+    private Long id;
 
-    @ManyToOne
     @JoinColumn(name = "order_detail_id", nullable = false)
-    private OrderDetail orderDetail;
+    private Long orderDetailId;
 
     @Column(name = "return_cause", nullable = false)
     private String returnCause;
@@ -34,8 +33,8 @@ public class Return implements OnCreateEntity {
     private LocalDateTime createdAt;
 
     @Builder
-    public Return(OrderDetail orderDetail, String returnCause, String returnNumber) {
-        this.orderDetail = orderDetail;
+    public Return(Long orderDetailId, String returnCause, String returnNumber) {
+        this.orderDetailId = orderDetailId;
         this.returnCause = returnCause;
         this.returnNumber = returnNumber;
     }
