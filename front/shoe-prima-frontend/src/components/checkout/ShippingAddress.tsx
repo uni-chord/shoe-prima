@@ -1,91 +1,71 @@
-import { CheckBox, ExpandLess, ExpandMore } from '@mui/icons-material';
 import { useState } from 'react';
 import styled from 'styled-components';
 
 const ShippingAddress: () => JSX.Element = () => {
-  const [selectedOption, setSelectedOption] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0); // 최초 첫번째 주소 선택
 
-  const options = [
-    { value: 'leaveAtDoor', label: '문 앞에 놔주세요.' },
-    { value: 'withGuard', label: '경비실에 맡겨주세요.' },
-    { value: 'contactFirst', label: '미리 연락 주세요.' },
-    { value: 'noRequest', label: '특별한 요청 사항 없음' },
+  // 임시 주소 목록
+  const addressData = [
+    {
+      name: '황민욱',
+      address: '서울시 어쩌구 어쩌동 몇번지 어쩌구',
+      zipCode: '12345',
+      email: 'email@email.com',
+      default: true,
+    },
+    {
+      name: '황민욱',
+      address:
+        '경기도 화성시 동탄 삽니다만 상세주소는 비밀이지롱 아파트 101동 101호',
+      zipCode: '12345',
+      email: 'email@email.com',
+      default: false,
+    },
+    {
+      name: '황민욱',
+      address: '서울시 어쩌구 어쩌동 몇번지 어쩌구 상세 주소',
+      zipCode: '12345',
+      email: 'email@email.com',
+      default: false,
+    },
   ];
-
-  const handleSelect = (option: string): void => {
-    setSelectedOption(option);
-    setIsOpen(false);
-  };
 
   return (
     <ShippingAddressBox>
-      <Title>배송지 정보</Title>
-      <ShippingForm>
-        <PersonalInfo>
-          <InputBox>
-            <Label>
-              받으실 분 <span>*</span>
-            </Label>
-            <Input placeholder="받으실 분" />
-          </InputBox>
-          <InputBox>
-            <Label>
-              연락처 <span>*</span>
-            </Label>
-            <Input placeholder="연락처" />
-          </InputBox>
-        </PersonalInfo>
-
-        <Address>
-          <InputBox>
-            <Label>
-              배송 주소 <span>*</span>
-            </Label>
-            <AddressSearchInputBox>
-              <Input placeholder="배송 주소" />
-              <Button>검색</Button>
-            </AddressSearchInputBox>
-          </InputBox>
-          <Input placeholder="나머지 주소 입력" />
-        </Address>
-
-        <ShippingRequest>
-          <DropDownContainer>
-            <DropDownHeader onClick={() => setIsOpen(!isOpen)}>
-              {selectedOption
-                ? options.find((option) => option.value === selectedOption)
-                    ?.label
-                : '배송 시 요청 사항을 선택해주세요.'}
-              {isOpen ? <StyledExpandLess /> : <StyledExpandMore />}
-            </DropDownHeader>
-            {isOpen && (
-              <DropDownList>
-                {options.map((option) => (
-                  <ListItem
-                    key={option.value}
-                    onClick={() => handleSelect(option.value)}
-                  >
-                    {option.label}
-                  </ListItem>
-                ))}
-              </DropDownList>
-            )}
-          </DropDownContainer>
-        </ShippingRequest>
-
-        <CheckDefaultAddress>
-          <StyledCheckBox />
-          기본 배송지로 설정
-        </CheckDefaultAddress>
-      </ShippingForm>
+      <Title>
+        배송지 정보
+        <button>배송지 추가</button>
+      </Title>
+      <AddressList>
+        {addressData.map((address, index) => (
+          <AddressItem
+            key={index}
+            isSelected={index === selectedIndex}
+            onClick={() => setSelectedIndex(index)}
+          >
+            <AddressInfo>
+              <p>{address.name}</p>
+              <p>{address.address}</p>
+              <p>{address.zipCode}</p>
+              <p>{address.email}</p>
+            </AddressInfo>
+            <EditAddressBox>
+              <ButtonBox>
+                <button>편집</button>
+                <button>제거</button>
+              </ButtonBox>
+              {address.default ? <DefaultAddress>기본</DefaultAddress> : <></>}
+            </EditAddressBox>
+          </AddressItem>
+        ))}
+      </AddressList>
     </ShippingAddressBox>
   );
 };
 
 export default ShippingAddress;
 
-const ShippingAddressBox = styled.div`
+const ShippingAddressBox = styled.section`
   display: flex;
   flex-direction: column;
   align-self: stretch;
@@ -95,242 +75,146 @@ const ShippingAddressBox = styled.div`
 `;
 
 const Title = styled.h2`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
   padding-bottom: var(--title--title2--regular);
 
   color: var(--black--900);
   font-feature-settings: 'calt' off;
 
-  /* heading/heading2/bold */
+  /* headline/headline2/bold */
   font-family: Pretendard;
-  font-size: var(--heading--heading2--bold);
+  font-size: var(--headline--headline2--regular);
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  letter-spacing: -0.0125rem;
-`;
+  letter-spacing: -0.0106rem;
 
-const ShippingForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: var(--title--title2--regular);
-`;
+  button {
+    border: none;
+    background: transparent;
 
-// 1. 받으실 분, 연락처
-const PersonalInfo = styled.div`
-  display: flex;
-  align-items: flex-start;
-  align-self: stretch;
-  gap: var(--caption--caption2--regular);
+    color: var(--gray--500);
+    font-feature-settings: 'calt' off;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
+    /* body/body2/underline */
+    font-family: Pretendard;
+    font-size: var(--body--body2--regular);
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.0094rem;
+    text-decoration-line: underline;
+
+    cursor: pointer;
   }
 `;
 
-const InputBox = styled.div`
+const AddressList = styled.ul`
   display: flex;
-  flex-direction: column;
-  align-self: stretch;
-  flex: 1 0 0;
+  gap: var(--title--title3--regular);
+
+  overflow: scroll;
+
+  /* 기본 스크롤바 숨기기 (웹킷 기반 브라우저용) */
+  &::-webkit-scrollbar {
+    width: 0; /* 세로 스크롤바 너비를 0으로 설정 */
+    height: 0; /* 가로 스크롤바 높이를 0으로 설정 */
+  }
+  /* 기본 스크롤바 숨기기 (Firefox용) */
+  scrollbar-width: none; /* 기본 스크롤바 숨기기 */
+  -ms-overflow-style: none; /* 기본 스크롤바 숨기기 (IE 10+) */
 `;
 
-const Label = styled.label`
+const AddressItem = styled.li<{ isSelected: boolean }>`
   display: flex;
-  align-self: stretch;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid
+    ${({ isSelected }) =>
+      isSelected ? 'var(--gray--900)' : 'var( --lightgray--300)'};
+`;
 
-  gap: 0.25rem;
+const AddressInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--body--body1--regular);
 
-  padding-bottom: 0.5rem;
+  p {
+    color: #000;
+    font-feature-settings: 'calt' off;
 
-  color: var(--black--900);
-  font-feature-settings: 'calt' off;
+    /* body/body1/regular */
+    font-family: Pretendard;
+    font-size: var(--body--body1--regular);
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.01rem;
 
-  /* label/regular */
-  font-family: Pretendard;
-  font-size: var(--label--regular);
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: -0.0094rem;
-
-  span {
-    color: var(--red--900);
+    /* 두 번째 p 태그 */
+    &:nth-of-type(2) {
+      /* body/body1/reading */
+      line-height: 1.625rem; /* 162.5% */
+    }
   }
 `;
 
-const Input = styled.input`
-  display: flex;
-  align-items: flex-start;
-  align-self: stretch;
-  flex: 1 0 0;
-
-  padding: 0.9375rem 1.125rem;
-
-  background: var(--white--900);
-  border: 1px solid var(--lightgray--300);
-  border-radius: var(--border-radius---border-radius-s, 8px);
-
-  color: var(--black--opacity20);
-  font-feature-settings: 'calt' off;
-  outline: none;
-
-  /* body/body2/regular */
-  font-family: Pretendard;
-  font-size: var(--body--body2--regular);
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: -0.0094rem;
-`;
-
-// 2. 배송지 주소
-const Address = styled.div`
+const EditAddressBox = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  align-self: stretch;
-  gap: var(--caption--caption2--regular);
-`;
-
-const AddressSearchInputBox = styled.div`
-  display: flex;
-  align-items: flex-start;
-  align-self: stretch;
-  gap: var(--caption--caption2--regular);
-`;
-
-const Button = styled.button`
-  display: flex;
-  align-items: center;
-
-  height: 3rem;
-  padding: 0.9375rem 1.5rem;
-
-  background: var(--black--900);
-  border: none;
-  border-radius: var(--border-radius---border-radius-s, 8px);
-
-  color: var(--white--900);
-  font-feature-settings: 'calt' off;
-
-  font-family: Pretendard;
-  font-size: var(--body--body1--regular);
-  font-style: normal;
-  font-weight: 600;
-  line-height: 1.5rem; /* 150% */
-  letter-spacing: -0.01rem;
-
-  cursor: pointer;
-`;
-
-// 3. 배송 요청 사항
-const ShippingRequest = styled.div`
-  display: flex;
-  align-items: flex-start;
-  align-self: stretch;
-  /* gap: var(--caption--caption2--regular); */
-`;
-
-const DropDownContainer = styled.div`
-  width: 100%;
-`;
-
-const DropDownHeader = styled.div`
-  display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 0.625rem;
-  flex: 1 0 0;
+  align-items: flex-end;
 
-  padding: 0.9375rem 0.625rem 0.9375rem 1.125rem;
-
-  background: var(--white--900);
-  border: 1px solid var(--lightgray--300);
-  border-radius: var(--border-radius---border-radius-s, 8px);
-
-  color: var(--gray--900);
-  font-feature-settings: 'calt' off;
-
-  /* body/body2/regular */
-  font-family: Pretendard;
-  font-size: var(--body--body2--regular);
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: -0.0094rem;
-
-  cursor: pointer;
+  min-width: 120px; // 임의로 지정
 `;
 
-const StyledExpandMore = styled(ExpandMore)`
-  width: var(--title--title3--regular);
-  height: var(--title--title3--regular);
-
-  color: var(--gray--500);
-`;
-
-const StyledExpandLess = styled(ExpandLess)`
-  width: var(--title--title3--regular);
-  height: var(--title--title3--regular);
-
-  color: var(--gray--500);
-`;
-
-const DropDownList = styled.ul`
+const ButtonBox = styled.div`
   display: flex;
-  flex-direction: column;
+  gap: var(--caption--caption2--regular);
+  align-items: flex-start;
   flex: 1 0 0;
 
-  background: var(--white--900);
-  border: 1px solid var(--lightgray--300);
-  border-radius: var(--border-radius---border-radius-s, 8px);
+  button {
+    min-width: 28px;
+    padding: 0;
 
-  color: var(--gray--900);
-  font-feature-settings: 'calt' off;
+    background-color: transparent;
+    border: none;
 
-  /* body/body2/regular */
-  font-family: Pretendard;
-  font-size: var(--body--body2--regular);
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: -0.0094rem;
+    color: var(--gray--500);
+    font-feature-settings: 'calt' off;
 
-  cursor: pointer;
-`;
+    /* body/body2/underline */
+    font-family: Pretendard;
+    font-size: var(--body--body2--underline);
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.0094rem;
+    text-decoration-line: underline;
 
-const ListItem = styled.li`
-  padding: 0.9375rem 0.625rem 0.9375rem 1.125rem;
-
-  &:hover {
-    background: var(--lightgray--300);
+    cursor: pointer;
   }
 `;
 
-// 4. 기본 배송지 설정
-const CheckDefaultAddress = styled.div`
+const DefaultAddress = styled.div`
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  padding: 0.25rem 0.375rem;
 
-  padding-top: 1rem;
+  background: var(--orange--opacity10);
+  border-radius: var(--border-radius---border-radius-xs, 4px);
 
-  opacity: 0.3;
-
-  color: var(--gray--900);
+  color: var(--orange--900);
   font-feature-settings: 'calt' off;
 
-  /* label/regular */
+  /* caption/caption2/regular */
   font-family: Pretendard;
-  font-size: var(--label--regular);
+  font-size: var(--caption--caption2--regular);
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  letter-spacing: -0.0094rem;
-`;
-
-const StyledCheckBox = styled(CheckBox)`
-  width: var(--title--title3--regular);
-  height: var(--title--title3--regular);
-  flex-shrink: 0;
+  letter-spacing: -0.0075rem;
 `;

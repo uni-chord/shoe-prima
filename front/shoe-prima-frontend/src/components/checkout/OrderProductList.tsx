@@ -1,30 +1,63 @@
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import { useState } from 'react';
 import styled from 'styled-components';
+import OrderProductItem from './OrderProductItem';
 
-const OrderProductInfo: () => JSX.Element = () => {
+const OrderProductList: () => JSX.Element = () => {
   const [isOpen, setIsOpen] = useState(true);
+
+  // 임시 데이터
+  const productData = [
+    {
+      id: 1,
+      name: '상품 이름 1',
+      price: '999,999,999원',
+      color: '핑크',
+      size: 230,
+      quantity: 1,
+      image: '/src/assets/testImg1.png',
+    },
+    {
+      id: 2,
+      name: '상품 이름 2',
+      price: '1,000,000원',
+      color: '블루',
+      size: 240,
+      quantity: 2,
+      image: '/src/assets/testImg1.png',
+    },
+    {
+      id: 3,
+      name: '상품 이름 3',
+      price: '500,000원',
+      color: '그린',
+      size: 250,
+      quantity: 3,
+      image: '/src/assets/testImg1.png',
+    },
+  ];
   return (
-    <OrderProductInfoBox>
+    <OrderProductListBox>
       <Title onClick={() => setIsOpen(!isOpen)}>
         상품 상세 정보
         {isOpen ? <StyledExpandLess /> : <StyledExpandMore />}
       </Title>
       {isOpen ? (
         <ProductList>
-          <p>테스트</p>
-          <p>테스트</p>
+          {productData.map((product) => (
+            <OrderProductItem key={product.id} product={product} />
+          ))}
         </ProductList>
       ) : (
         <></>
       )}
-    </OrderProductInfoBox>
+    </OrderProductListBox>
   );
 };
 
-export default OrderProductInfo;
+export default OrderProductList;
 
-const OrderProductInfoBox = styled.div`
+const OrderProductListBox = styled.section`
   display: flex;
   flex-direction: column;
   align-self: stretch;
@@ -41,13 +74,13 @@ const Title = styled.h2`
   color: var(--black--900);
   font-feature-settings: 'calt' off;
 
-  /* heading/heading2/bold */
+  /* headline/headline2/bold */
   font-family: Pretendard;
-  font-size: var(--heading--heading2--bold);
+  font-size: var(--headline--headline2--regular);
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  letter-spacing: -0.0125rem;
+  letter-spacing: -0.0106rem;
 
   cursor: pointer;
 `;
@@ -68,6 +101,4 @@ const ProductList = styled.ul`
   align-items: flex-start;
   align-self: stretch;
   gap: 1.75rem;
-
-  /* background-color: skyblue; */
 `;

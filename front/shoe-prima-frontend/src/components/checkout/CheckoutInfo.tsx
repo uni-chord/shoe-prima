@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import ExpectedPayment from './ExpectedPayment';
-import OrderProductInfo from './OrderProductInfo';
+import OrderProductList from './OrderProductList';
 
 const CheckoutInfo: React.FC = () => {
   return (
@@ -9,7 +9,7 @@ const CheckoutInfo: React.FC = () => {
       <PaymentButtonBox>
         <Button>결제하기</Button>
       </PaymentButtonBox>
-      <OrderProductInfo />
+      <OrderProductList />
     </CheckoutInfoBox>
   );
 };
@@ -40,11 +40,7 @@ const CheckoutInfoBox = styled.div`
 
 const PaymentButtonBox = styled.div`
   display: flex;
-  padding: 0rem var(--padding---mobile-padding, 1.25rem) 1.25rem;
-
-  @media (max-width: 768px) {
-    padding: 0;
-  }
+  padding-bottom: 36px;
 `;
 
 const Button = styled.button`
