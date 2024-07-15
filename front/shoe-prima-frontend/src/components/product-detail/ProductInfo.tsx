@@ -555,10 +555,10 @@ const DetailsContainer = styled.div`
 `;
 
 const ToggleButton = styled.button`
-  display: flex; // Flex 컨테이너로 설정
-  justify-content: space-between; // 내부 요소를 양 끝으로 정렬
-  align-items: center; // 세로 중앙 정렬
-  width: 100%; // 버튼의 너비를 조정하려면 추가
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 
   border: none;
   background-color: var(--white-900);

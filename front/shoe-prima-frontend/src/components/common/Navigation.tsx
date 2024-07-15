@@ -57,6 +57,7 @@ const StyledNavigation = styled.div`
 
   background: var(--white--900, #fff);
   border-bottom: 1px solid var(--lightgray--300, #e5e5e5);
+  z-index: 1000;
 `;
 
 const Logo = styled(NavLink)`
