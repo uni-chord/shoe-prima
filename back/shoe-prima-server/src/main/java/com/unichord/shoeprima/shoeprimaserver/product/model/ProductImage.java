@@ -18,12 +18,11 @@ public class ProductImage implements OnCreateEntity {
 
     @Id
     @Tsid
-    @Column(name = "image_id", nullable = false)
-    private Long imageId;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-    @ManyToOne
     @JoinColumn(name = "product_id")
-    private Product product;
+    private Long productId;
 
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
@@ -32,8 +31,8 @@ public class ProductImage implements OnCreateEntity {
     private LocalDateTime createdAt;
 
     @Builder
-    public ProductImage(Product product, String imageUrl) {
-        this.product = product;
+    public ProductImage(Long productId, String imageUrl) {
+        this.productId = productId;
         this.imageUrl = imageUrl;
     }
 

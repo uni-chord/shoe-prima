@@ -1,31 +1,33 @@
-package com.unichord.shoeprima.shoeprimaserver.order.model;
+    package com.unichord.shoeprima.shoeprimaserver.order.model;
 
-import com.unichord.shoeprima.shoeprimaserver.common.vo.FootSize;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
+    import lombok.AllArgsConstructor;
+    import lombok.Builder;
+    import lombok.Data;
+    import lombok.Getter;
 
-import java.time.LocalDateTime;
+    import java.time.LocalDateTime;
 
-public class OrderDetailDto {
+    public class OrderDetailDto {
 
-    @Data
-    @Getter
-    @Builder
-    @AllArgsConstructor
-    public static class Summary {
+        @Data
+        @Getter
+        @Builder
+        @AllArgsConstructor
+        public static class Summary {
 
-        private String productName;
-        private FootSize size;
-        private String color;
-        private Integer productQnt;
-        private Integer priceSum;
-        private OrderStatus orderStatus;
-        private LocalDateTime createdAt;
+            private Long id;
+            private Long orderId;
+            private Long productId;
+            private String productName;
+            private Integer size;
+            private String color;
+            private Integer productQnt;
+            private Integer priceSum;
+            private OrderStatus orderStatus;
+            private LocalDateTime createdAt;
+
+        }
+
+
 
     }
-
-
-
-}

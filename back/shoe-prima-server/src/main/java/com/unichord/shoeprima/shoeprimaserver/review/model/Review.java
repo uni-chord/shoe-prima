@@ -1,8 +1,6 @@
 package com.unichord.shoeprima.shoeprimaserver.review.model;
 
 import com.unichord.shoeprima.shoeprimaserver.common.interfaces.OnCreateEntity;
-import com.unichord.shoeprima.shoeprimaserver.product.model.Product;
-import com.unichord.shoeprima.shoeprimaserver.user.model.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -19,16 +17,14 @@ public class Review implements OnCreateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "review_id", nullable = false)
-    private Long reviewId;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private Long userId;
 
-    @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    private Long productId;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -46,9 +42,9 @@ public class Review implements OnCreateEntity {
     private Boolean isActive;
 
     @Builder
-    public Review(User user, Product product, String title, String content, Byte ratingCnt, Boolean isActive) {
-        this.user = user;
-        this.product = product;
+    public Review(Long userId, Long productId, String title, String content, Byte ratingCnt, Boolean isActive) {
+        this.userId = userId;
+        this.productId = productId;
         this.title = title;
         this.content = content;
         this.ratingCnt = ratingCnt;

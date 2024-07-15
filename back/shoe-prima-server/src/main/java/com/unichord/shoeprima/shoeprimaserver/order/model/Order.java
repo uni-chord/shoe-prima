@@ -2,7 +2,6 @@ package com.unichord.shoeprima.shoeprimaserver.order.model;
 
 import com.unichord.shoeprima.shoeprimaserver.common.interfaces.OnCreateEntity;
 import com.unichord.shoeprima.shoeprimaserver.common.vo.Address;
-import com.unichord.shoeprima.shoeprimaserver.user.model.User;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -22,12 +21,11 @@ public class Order implements OnCreateEntity {
 
     @Id
     @Tsid
-    @Column(name = "order_id")
-    private Long orderId;
+    @Column(name = "id")
+    private Long id;
 
-    @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Long userId;
 
     @Column(name = "order_number", nullable = false)
     private String orderNumber;
@@ -54,8 +52,8 @@ public class Order implements OnCreateEntity {
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
     @Builder
-    public Order(User user, String orderNumber, int totalPrice, Address address, String receiverName, String receiverPhone, String postNumber) {
-        this.user = user;
+    public Order(Long userId, String orderNumber, int totalPrice, Address address, String receiverName, String receiverPhone, String postNumber) {
+        this.userId = userId;
         this.orderNumber = orderNumber;
         this.totalPrice = totalPrice;
         this.address = address;

@@ -2,7 +2,6 @@ package com.unichord.shoeprima.shoeprimaserver.order.model;
 
 import com.unichord.shoeprima.shoeprimaserver.common.interfaces.OnCreateEntity;
 import com.unichord.shoeprima.shoeprimaserver.order.converter.OrderStatusConverter;
-import com.unichord.shoeprima.shoeprimaserver.product.model.Product;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -20,22 +19,21 @@ public class OrderDetail implements OnCreateEntity {
 
     @Id
     @Tsid
-    @Column(name = "order_detail_id", nullable = false)
-    private Long orderDetailId;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
+    private Long orderId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    private Long productId;
 
     @Column(name = "product_qnt", nullable = false)
     private Integer productQnt;
 
-    @Column(name = "product_size]", nullable = false)
-    private Size productSize;
+    @Embedded
+    @Column(name = "product_size", nullable = false)
+    private Integer productSize;
 
     @Column(name = "price_sum", nullable = false)
     private Integer priceSum;
@@ -51,21 +49,14 @@ public class OrderDetail implements OnCreateEntity {
     private LocalDateTime updatedAt;
 
     @Builder
-    public OrderDetail(Order order, Product product, Integer productQnt, Size productSize, Integer priceSum, OrderStatus orderStatus) {
-        this.order = order;
-        this.product = product;
+    public OrderDetail(Long id, Long orderId, Long productId, Integer productQnt, Integer productSize, Integer priceSum, OrderStatus orderStatus) {
+        this.id = id;
+        this.orderId = orderId;
+        this.productId = productId;
         this.productQnt = productQnt;
         this.productSize = productSize;
         this.priceSum = priceSum;
         this.orderStatus = orderStatus;
-    }
-
-    public void changeOrder(Order order) {
-        this.order = order;
-    }
-
-    public void changeProductId(Product product) {
-        this.product = product;
     }
 
     public void changeProductQnt(Integer productQnt) {
@@ -77,6 +68,9 @@ public class OrderDetail implements OnCreateEntity {
     }
 
     public void changeOrderStatus(OrderStatus orderStatus) {
+        if (!this.orderStatus.isProcessing()) {
+            throw new IllegalStateException("Cannot change status of cancelled order");
+        }
         this.orderStatus = orderStatus;
     }
 

@@ -17,7 +17,7 @@ public class OrderDto {
     @AllArgsConstructor
     public static class Summary {
 
-        private Long orderId;
+        private Long id;
         private String orderNumber;
         private String postNumber;
         private Integer totalPrice;
